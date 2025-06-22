@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Online Schach</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    #board {
+      width: 400px;
+    }
+    #moves {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 400px;
+      background: #f8f8f8;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/css/chessboard.min.css" />
+</head>
+<body>
+  <h1>Schachbrett (GitHub Pages Edition)</h1>
+  <div id="board"></div>
+  <div id="moves"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/js/chessboard.min.js"></script>
+  <script>
+    const boardEl = document.getElementById('board');
+    const movesEl = document.getElementById('moves');
+    const game = new Chess();
+
+    const board = Chessboard('board', {
+      draggable: true,
+      position: 'start',
+      onDrop: (source, target) => {
+        const move = game.move({ from: source, to: target, promotion: 'q' });
+
+        if (move === null) return 'snapback';
+        updateMoveList();
+      }
+    });
+
+    function updateMoveList() {
+      const history = game.history({ verbose: true });
+      let movesHtml = '';
+      for (let i = 0; i < history.length; i += 2) {
+        const moveNum = Math.floor(i / 2) + 1;
+        const white = history[i] ? history[i].san : '';
+        const black = history[i + 1] ? history[i + 1].san : '';
+        movesHtml += `<div>${moveNum}. ${white} ${black}</div>`;
+      }
+      movesEl.innerHTML = movesHtml;
+    }
+  </script>
+</body>
+</html>
