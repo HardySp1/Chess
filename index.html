@@ -24,16 +24,19 @@
       background: #f8f8f8;
     }
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/www/css/chessboard-1.0.0.min.css" />
+  <!-- chessboard.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
   <h1>Schachbrett (GitHub Pages Edition)</h1>
   <div id="board"></div>
   <div id="moves"></div>
 
-  <!-- Verwende stabile Versionen -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/www/js/chessboard-1.0.0.min.js"></script>
+  <!-- chess.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+  <!-- chessboard.js (funktionierende Version) -->
+  <script src="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+
   <script>
     const boardEl = document.getElementById('board');
     const movesEl = document.getElementById('moves');
@@ -44,6 +47,7 @@
       position: 'start',
       onDrop: (source, target) => {
         const move = game.move({ from: source, to: target, promotion: 'q' });
+
         if (move === null) return 'snapback';
         updateMoveList();
       }
